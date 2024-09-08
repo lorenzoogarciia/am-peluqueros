@@ -2,7 +2,7 @@ import { FlatList, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import AddProduct from "../../components/peluqueros/AddProduct";
+import AddProduct from "../../components/peluqueros/Modals/AddProduct";
 import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "../../firebase/config";
 import BarberProduct from "../../components/peluqueros/BarberProduct";
@@ -14,7 +14,7 @@ export default function Productos() {
   const [products, setProducts] = useState([]);
 
   //Función que obtiene los productos de firestore
-  const fetchProductos = async () => {
+  const fetchProducts = async () => {
     try {
       const querySnapshot = await getDocs(collection(firestore, "productos"));
       const productsArray = querySnapshot.docs.map((doc) => ({
@@ -29,7 +29,7 @@ export default function Productos() {
 
   //Función que renderiza cada producto
   useEffect(() => {
-    fetchProductos();
+    fetchProducts();
   }, []);
 
   return (
@@ -48,7 +48,7 @@ export default function Productos() {
         data={products}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <BarberProduct item={item} fetchProductos={fetchProductos} />
+          <BarberProduct item={item} fetchProductos={fetchProducts} />
         )}
       />
       <View className="items-center justify-center mt-2 flex-row">
@@ -63,7 +63,7 @@ export default function Productos() {
         >
           <Text className="text-white font-bold">Crear Producto</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={fetchProductos}>
+        <TouchableOpacity onPress={fetchProducts}>
           <ReloadIcon size={40} />
         </TouchableOpacity>
       </View>
@@ -72,7 +72,7 @@ export default function Productos() {
       <AddProduct
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        refreshProducts={fetchProductos}
+        refreshProducts={fetchProducts}
       />
     </View>
   );

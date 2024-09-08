@@ -4,12 +4,12 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { firestore } from "../../firebase/config";
 import { doc, deleteDoc } from "firebase/firestore";
 
-export default function BarberProduct({ item, fetchProductos }) {
+export default function BarberProduct({ item, fetchProducts }) {
   const handleDeleteProduct = async (id) => {
     try {
       const productRef = doc(firestore, "productos", id);
       await deleteDoc(productRef);
-      fetchProductos();
+      fetchProducts();
       Alert.alert("Producto eliminado correctamente");
     } catch (error) {
       console.error("Error al eliminar producto: ", error);
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "white",
-    padding: 15,
+    padding: 20,
     borderRadius: 20,
     margin: 5,
   },
@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
   },
 
   productText: {
-    fontSize: 20,
+    fontSize: 16,
+    marginTop: 10,
   },
 });

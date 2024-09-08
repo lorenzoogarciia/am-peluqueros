@@ -8,9 +8,8 @@ import {
   Alert,
 } from "react-native";
 import { useState } from "react";
-import { firestore } from "../../firebase/config";
+import { firestore } from "../../../firebase/config";
 import { doc, setDoc } from "firebase/firestore";
-import Toast from "react-native-toast-message";
 
 export default function AddProduct({
   modalVisible,

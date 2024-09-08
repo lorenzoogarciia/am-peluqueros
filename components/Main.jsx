@@ -100,18 +100,18 @@ export function Main() {
           style={{ width: "75%" }}
         >
           <StyledPressable
-            className="rounded-2xl active:opacity-80 mr-2 p-2 items-center"
+            className="rounded-3xl active:opacity-80 mr-2 p-3 items-center"
             style={{ backgroundColor: "black" }}
             onPress={handleSignIn}
           >
-            <Text className="text-white text-lg">Iniciar sesión</Text>
+            <Text className="text-white text-xl font-bold">Iniciar sesión</Text>
           </StyledPressable>
           <Link asChild href={"../common/registro"}>
             <StyledPressable
-              className="rounded-2xl active:opacity-80 ml-2 items-center p-2"
+              className="rounded-3xl active:opacity-80 ml-2 items-center p-3"
               style={{ backgroundColor: "black" }}
             >
-              <Text className="text-white text-lg">Registro</Text>
+              <Text className="text-white text-xl font-bold">Registro</Text>
             </StyledPressable>
           </Link>
         </View>
