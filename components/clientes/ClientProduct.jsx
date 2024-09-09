@@ -2,11 +2,13 @@ import { Text, View, StyleSheet } from "react-native";
 import { CheckBox } from "react-native-elements";
 import { useState } from "react";
 
-export default function ClientProduct({ item }) {
+export default function ClientProduct({ item, onProductSelect }) {
   const [checked, setChecked] = useState(false);
 
   const toggleCheckBox = () => {
-    setChecked(!checked);
+    const newCheckedState = !checked;
+    setChecked(newCheckedState);
+    onProductSelect(item, newCheckedState);
   };
   return (
     <View style={styles.productContainer}>

@@ -16,6 +16,7 @@ export function Main() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
+  //Función que maneja el inicio de sesión en Firebase
   const handleSignIn = async () => {
     if (email && password) {
       try {
@@ -30,6 +31,7 @@ export function Main() {
         //Verificamos si el usuario está en la colección peluqueros
         const barberDoc = await getDoc(doc(firestore, "peluqueros", email));
         if (barberDoc.exists()) {
+          clearFields();
           router.push("/peluqueros/barberHome");
           return;
         }
@@ -37,6 +39,7 @@ export function Main() {
         //Verificamos si el usuario está en la colección peluqueros
         const clientDoc = await getDoc(doc(firestore, "clientes", email));
         if (clientDoc.exists()) {
+          clearFields();
           router.push("/clientes/clientHome");
           return;
         }
@@ -51,6 +54,13 @@ export function Main() {
       Alert.alert("Por favor, rellene todos los campos");
     }
   };
+
+  //Función que limpia los campos de texto
+  const clearFields = () => {
+    setEmail("");
+    setPassword("");
+  };
+
   return (
     <Screen>
       <View style={{ width: "100%" }} className="items-center justify-center">

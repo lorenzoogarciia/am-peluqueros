@@ -4,12 +4,12 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { firestore } from "../../firebase/config";
 import { doc, deleteDoc } from "firebase/firestore";
 
-export default function BarberProduct({ item, fetchProducts }) {
+export default function BarberProduct({ item, fetchProductos }) {
   const handleDeleteProduct = async (id) => {
     try {
       const productRef = doc(firestore, "productos", id);
       await deleteDoc(productRef);
-      fetchProducts();
+      fetchProductos();
       Alert.alert("Producto eliminado correctamente");
     } catch (error) {
       console.error("Error al eliminar producto: ", error);
