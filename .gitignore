@@ -35,5 +35,5 @@ yarn-error.*
 *.tsbuildinfo
 
 # firebase config
-firebase/config.js
 config/mailjet.js
+firebase/config.js
