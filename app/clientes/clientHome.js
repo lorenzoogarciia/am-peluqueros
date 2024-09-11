@@ -6,9 +6,10 @@ import {
   TextInput,
   FlatList,
   Text,
+  Animated,
 } from "react-native";
 import { PhoneIcon } from "../../components/common/Icons";
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "../../firebase/config";
@@ -21,6 +22,7 @@ export default function ClientHome() {
   const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [showButton, setShowButton] = useState(false);
   const insets = useSafeAreaInsets();
 
   //Función que obtiene los productos de firestore
@@ -37,6 +39,7 @@ export default function ClientHome() {
     }
   };
 
+  //Función que maneja la selección de productos
   const handleProductSelect = (product, isSelected) => {
     if (isSelected) {
       setSelectedProducts((prevSelectedProducts) => [
@@ -66,10 +69,56 @@ export default function ClientHome() {
     product.name.toLowerCase().includes(searchText.toLowerCase()),
   );
 
+  //Función que anima el botón de reservar
+  const scaleAnim = useRef(new Animated.Value(0)).current;
+  const opacityAnim = useRef(new Animated.Value(0)).current;
+
+  //Función para cuando se hace visible el botón
+  const animateIn = useCallback(() => {
+    setShowButton(true);
+    Animated.parallel([
+      Animated.timing(scaleAnim, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+      Animated.timing(opacityAnim, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [scaleAnim, opacityAnim]);
+
+  //Función para cuando se oculta el botón
+  const animateOut = useCallback(() => {
+    Animated.parallel([
+      Animated.timing(scaleAnim, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+      Animated.timing(opacityAnim, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+    ]).start(() => setShowButton(false));
+  }, [scaleAnim, opacityAnim]);
+
   //Función que renderiza cada producto
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  //Animación del botón de reservar
+  useEffect(() => {
+    if (selectedProducts.length > 0) {
+      animateIn();
+    } else {
+      animateOut();
+    }
+  }, [selectedProducts, animateIn, animateOut]);
 
   return (
     <View
@@ -109,6 +158,7 @@ export default function ClientHome() {
           <PhoneIcon size={28} color={"black"} />
         </TouchableOpacity>
       </View>
+      {/* Lista de productos */}
       <View className="p-3 flex-grow">
         <FlatList
           data={filteredProducts}
@@ -118,25 +168,37 @@ export default function ClientHome() {
           )}
         />
       </View>
-      <View
-        className="items-center justify-center"
-        style={{ paddingBottom: insets.bottom }}
-      >
-        <TouchableOpacity
-          onPress={() => {
-            setModalVisible(true);
-            console.log(selectedProducts);
+      {/* Botón de Reservar */}
+      {showButton && (
+        <Animated.View
+          style={{
+            paddingBottom: insets.bottom,
+            position: "absolute",
+            left: 0,
+            right: 0,
+            alignItems: "center",
+            justifyContent: "center",
+            bottom: 0,
+            transform: [{ scale: scaleAnim }],
+            opacity: opacityAnim,
           }}
-          className="bg-black rounded-3xl p-3"
         >
-          <Text className="text-white font-bold text-2xl">Reservar</Text>
-        </TouchableOpacity>
-        <ModalReserva
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          selectedProducts={selectedProducts}
-        />
-      </View>
+          <TouchableOpacity
+            onPress={() => {
+              setModalVisible(true);
+              console.log(selectedProducts);
+            }}
+            className="bg-black rounded-3xl p-3"
+          >
+            <Text className="text-white font-bold text-2xl">Reservar</Text>
+          </TouchableOpacity>
+        </Animated.View>
+      )}
+      <ModalReserva
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        selectedProducts={selectedProducts}
+      />
     </View>
   );
 }
