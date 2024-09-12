@@ -2,6 +2,7 @@ import { Drawer } from "expo-router/drawer";
 import "react-native-gesture-handler";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
+  CalendarIcon,
   ClientsIcon,
   HomeIcon,
   ProductsIcon,
@@ -52,6 +53,16 @@ export default function BarberLayout() {
             title: "Perfil",
             drawerIcon: ({ size, color }) => (
               <ProfileIcon size={size} color={color} />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="citas"
+          options={{
+            drawerLabel: "Citas",
+            title: "Citas Agendadas",
+            drawerIcon: ({ size, color }) => (
+              <CalendarIcon size={size} color={color} />
             ),
           }}
         />

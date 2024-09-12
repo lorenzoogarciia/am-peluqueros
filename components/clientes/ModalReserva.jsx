@@ -12,7 +12,6 @@ import { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { firestore, auth } from "../../firebase/config";
 import { doc, setDoc } from "firebase/firestore";
-import sendMail from "../../config/mailjet";
 import sendEmail from "../../config/mailjet";
 export default function ModalReserva({
   modalVisible,

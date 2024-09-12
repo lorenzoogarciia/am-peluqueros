@@ -73,7 +73,7 @@ export default function ClientHome() {
   const scaleAnim = useRef(new Animated.Value(0)).current;
   const opacityAnim = useRef(new Animated.Value(0)).current;
 
-  //Función para cuando se hace visible el botón
+  //Función de animación para cuando se hace visible el botón
   const animateIn = useCallback(() => {
     setShowButton(true);
     Animated.parallel([
@@ -90,7 +90,7 @@ export default function ClientHome() {
     ]).start();
   }, [scaleAnim, opacityAnim]);
 
-  //Función para cuando se oculta el botón
+  //Función de animación para cuando se oculta el botón
   const animateOut = useCallback(() => {
     Animated.parallel([
       Animated.timing(scaleAnim, {

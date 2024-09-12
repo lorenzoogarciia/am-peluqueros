@@ -1,6 +1,7 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Feather from "@expo/vector-icons/Feather";
+import Entypo from "@expo/vector-icons/Entypo";
 
 export const BackIcon = (props) => (
   <Ionicons
@@ -17,6 +18,10 @@ export const HomeIcon = (props) => (
 
 export const ProfileIcon = (props) => (
   <Ionicons name="person-circle-outline" size={24} color="black" {...props} />
+);
+
+export const CalendarIcon = (props) => (
+  <Ionicons name="calendar" size={24} color="black" {...props} />
 );
 
 export const ClientsIcon = (props) => (
@@ -45,4 +50,12 @@ export const TrashIcon = (props) => (
 
 export const ReloadIcon = (props) => (
   <Ionicons name="reload-circle-sharp" size={24} color="black" {...props} />
+);
+
+export const CheckIcon = (props) => (
+  <Entypo name="check" size={24} color="black" {...props} />
+);
+
+export const CancelIcon = (props) => (
+  <Entypo name="cross" size={24} color="black" {...props} />
 );

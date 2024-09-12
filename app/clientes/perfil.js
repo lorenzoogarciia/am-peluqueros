@@ -70,7 +70,7 @@ export default function Perfil() {
 
   const showDeleteConfirmation = () => {
     Alert.alert(
-      "Eliminar producto",
+      "Eliminar Cuenta",
       "¿Está seguro de que quieres eliminar tu cuenta?",
       [
         {
