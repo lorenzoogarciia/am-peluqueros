@@ -10,9 +10,16 @@ import {
 } from "react-native";
 import { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { firestore, auth } from "../../firebase/config";
-import { doc, setDoc } from "firebase/firestore";
-import sendEmail from "../../config/mailjet";
+import { firestore, auth } from "../../app/firebase/config";
+import {
+  doc,
+  setDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
+import sendEmail from "../../app/services/mailjet";
 export default function ModalReserva({
   modalVisible,
   setModalVisible,
@@ -20,6 +27,22 @@ export default function ModalReserva({
 }) {
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
+  //Función que genera las horas
+  const generateTimeSlots = () => {
+    const timeSlots = [];
+    let startTime = 9 * 60;
+    const endTime = 21 * 60;
+
+    while (startTime <= endTime) {
+      const hours = Math.floor(startTime / 60);
+      const minutes = startTime % 60;
+      const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
+      timeSlots.push(formattedTime);
+      startTime += 30;
+    }
+    return timeSlots;
+  };
+  const [availableTimes, setAvailableTimes] = useState(generateTimeSlots());
   const [selectedTime, setSelectedTime] = useState("09:00");
   const [showTimePicker, setShowTimePicker] = useState(false);
   //Función que calcula el precio total de los productos
@@ -36,11 +59,17 @@ export default function ModalReserva({
     setShowTimePicker(false);
     setModalVisible(false);
   };
-  //Función que muestra el datePicker
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShowDatePicker(Platform.OS === "ios");
-    setDate(currentDate);
+  const onChange = async (event, selectedDate) => {
+    if (event.type === "set") {
+      // Si el usuario confirma la selección
+      const currentDate = selectedDate || date;
+      setDate(currentDate); // Actualiza la fecha seleccionada
+      setShowDatePicker(Platform.OS === "ios"); // Oculta el picker en Android
+      await updateAvailableTimeSlots(currentDate); // Actualiza las horas disponibles
+    } else {
+      // Si el usuario cancela el picker
+      setShowDatePicker(false);
+    }
   };
 
   //Función que muestra el datePicker en Android
@@ -48,28 +77,56 @@ export default function ModalReserva({
     setShowDatePicker(true);
   };
 
-  //Función que genera las horas
-  const generateTimeSlots = () => {
-    const timeSlots = [];
-    let startTime = 9 * 60;
-    const endTime = 21 * 60;
+  const fetchReservedSlots = async (selectedDate) => {
+    try {
+      const formattedDate = selectedDate.toISOString().split("T")[0]; // Formato YYYY-MM-DD
+      const reservationsRef = collection(firestore, "reservations");
+      const q = query(reservationsRef, where("status", "==", "Confirmada"));
 
-    while (startTime <= endTime) {
-      const hours = Math.floor(startTime / 60);
-      const minutes = startTime % 60;
-      const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
-      timeSlots.push(formattedTime);
-      startTime += 30;
+      const snapshot = await getDocs(q);
+
+      const reservedTimes = snapshot.docs
+        .map((doc) => {
+          const reservationDate = doc.data().date.toDate(); // Convierte el Timestamp de Firebase a Date
+          const reservationDateFormatted = reservationDate
+            .toISOString()
+            .split("T")[0]; // Normalizamos la fecha a YYYY-MM-DD
+
+          console.log(
+            `Reservation date: ${reservationDateFormatted}, Time: ${doc.data().time}`,
+          );
+
+          if (reservationDateFormatted === formattedDate) {
+            return doc.data().time; // Solo devolvemos las horas de la fecha seleccionada
+          }
+          return null;
+        })
+        .filter((time) => time !== null); // Filtramos los valores nulos
+
+      return reservedTimes;
+    } catch (error) {
+      console.error("Error fetching reserved slots:", error);
+      return [];
     }
-    return timeSlots;
+  };
+
+  const updateAvailableTimeSlots = async (date) => {
+    try {
+      const reservedTimes = await fetchReservedSlots(date); // Obtén las horas reservadas confirmadas
+      const filteredTimeSlots = generateTimeSlots().filter(
+        (time) => !reservedTimes.includes(time), // Excluye las horas reservadas
+      );
+      setAvailableTimes([...filteredTimeSlots]);
+      console.log("Horas filtradas: ", availableTimes); // Actualiza el estado con las horas disponibles
+    } catch (error) {
+      console.error("Error updating time slots:", error);
+    }
   };
 
   const selectTime = (time) => {
     setSelectedTime(time);
     setShowTimePicker(false);
   };
-
-  const timeSlots = generateTimeSlots();
 
   const createReservation = async () => {
     const email = auth.currentUser.email;
@@ -90,7 +147,7 @@ export default function ModalReserva({
       sendEmail(
         email,
         "Su solicitud de reserva ha sido recibida",
-        `Su reserva para el día ${date.toLocaleDateString()} a las ${selectedTime}  ha sido solicitada correctamente. Deberá pagar un total de ${totalPrice.toString()}€.`,
+        `Su reserva para el día ${date.toLocaleDateString()} a las ${selectedTime}  ha sido solicitada correctamente.`,
       );
       console.log("Cita reservada con éxito ", docRef);
       setModalVisible(false);
@@ -140,8 +197,10 @@ export default function ModalReserva({
               <DateTimePicker
                 value={date}
                 mode="date"
-                display={Platform.OS === "ios" ? "spinner" : "calendar"}
+                display={"spinner"}
                 onChange={onChange}
+                minimumDate={new Date()}
+                textColor="black"
               />
             </View>
           )}
@@ -155,7 +214,7 @@ export default function ModalReserva({
             <View style={styles.modalContainer}>
               <View style={styles.modalContent}>
                 <FlatList
-                  data={timeSlots}
+                  data={availableTimes}
                   keyExtractor={(item) => item}
                   renderItem={({ item }) => (
                     <TouchableOpacity
@@ -179,7 +238,7 @@ export default function ModalReserva({
           <View
             style={{
               width: "100%",
-              margin: 20,
+              margin: 8,
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
@@ -256,12 +315,12 @@ const styles = StyleSheet.create({
     marginVertical: 6,
   },
   productText: {
-    fontSize: 16,
-    marginTop: 4,
+    fontSize: 20,
+    marginTop: 6,
     fontWeight: "bold",
   },
   totalPriceContainer: {
-    padding: 10,
+    padding: 6,
     borderRadius: 10,
     borderWidth: 2,
   },

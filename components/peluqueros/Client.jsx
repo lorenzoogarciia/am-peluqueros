@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 20,
     borderRadius: 20,
-    margin: 5,
+    marginVertical: 5,
   },
 
   clientName: {

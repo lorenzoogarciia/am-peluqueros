@@ -1,6 +1,6 @@
 import { Modal, View, Text, TouchableOpacity, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { storage, auth } from "../../../firebase/config";
+import { storage, auth } from "../../../app/firebase/config";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 export default function ModalAddProfileImage({

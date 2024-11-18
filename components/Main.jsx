@@ -1,61 +1,34 @@
+import React, { useState } from "react";
 import { Screen } from "./common/Screen";
 import Logo from "./common/Logo";
-import { TextInput, Pressable, View, Text } from "react-native";
+import { TextInput, Pressable, View, Text, Alert } from "react-native";
 import { styled } from "nativewind";
 import { Link } from "expo-router";
-import { auth, firestore } from "../firebase/config";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { Alert } from "react-native";
-import { useState } from "react";
 import { useRouter } from "expo-router";
+import { loginUser } from "../app/services/authService";
 
-export function Main() {
+export default function Main() {
   const StyledPressable = styled(Pressable);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  //Función que maneja el inicio de sesión en Firebase
   const handleSignIn = async () => {
-    if (email && password) {
-      try {
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password,
-        );
-        const user = userCredential.user;
-        console.log("Usuario", user);
+    try {
+      const { role } = await loginUser(email, password);
+      clearFields();
 
-        //Verificamos si el usuario está en la colección peluqueros
-        const barberDoc = await getDoc(doc(firestore, "peluqueros", email));
-        if (barberDoc.exists()) {
-          clearFields();
-          router.push("/peluqueros/barberHome");
-          return;
-        }
-
-        //Verificamos si el usuario está en la colección peluqueros
-        const clientDoc = await getDoc(doc(firestore, "clientes", email));
-        if (clientDoc.exists()) {
-          clearFields();
-          router.push("/clientes/clientHome");
-          return;
-        }
-
-        //Si no está en ninguna colección, mostramos un error
-        Alert.alert("Usuario no encontrado");
-      } catch (error) {
-        console.error("Error al iniciar sesión: ", error);
-        Alert.alert("Por favor, revise sus credenciales");
+      // Redirigir según el rol del usuario
+      if (role === "barber") {
+        router.push("./peluqueros/barberHome");
+      } else if (role === "client") {
+        router.push("./clientes/clientHome");
       }
-    } else {
-      Alert.alert("Por favor, rellene todos los campos");
+    } catch (error) {
+      Alert.alert(error.message || "Error al iniciar sesión");
     }
   };
 
-  //Función que limpia los campos de texto
   const clearFields = () => {
     setEmail("");
     setPassword("");

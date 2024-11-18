@@ -1,4 +1,5 @@
 import { Drawer } from "expo-router/drawer";
+import { TouchableOpacity } from "react-native";
 import "react-native-gesture-handler";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
@@ -8,33 +9,43 @@ import {
   ProductsIcon,
   ProfileIcon,
   SignOutIcon,
+  DrawerIcon,
 } from "../../components/common/Icons";
 import {
   DrawerContentScrollView,
   DrawerItem,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { auth } from "../../firebase/config";
-import { firestore } from "../../firebase/config";
+import { auth } from "../firebase/config";
+import { firestore, storage } from "../firebase/config";
+import { getDownloadURL, ref } from "firebase/storage";
 import { doc, getDoc } from "firebase/firestore";
-import { Alert, View, Text, Image } from "react-native";
+import { View, Text, Image, ActivityIndicator } from "react-native";
 import NoPhoto from "../../assets/usuario-nophoto.png";
 import { useEffect, useState } from "react";
+import { logoutUser } from "../services/authService";
 
 export default function BarberLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Drawer
         drawerContent={CustomDrawer}
-        screenOptions={{
+        screenOptions={({ navigation }) => ({
           drawerHideStatusBarOnOpen: true,
           drawerActiveTintColor: "white",
           drawerInactiveTintColor: "black",
           drawerActiveBackgroundColor: "black",
           drawerInactiveBackgroundColor: "white",
-        }}
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => navigation.toggleDrawer()}
+              style={{ marginLeft: 10 }}
+            >
+              <DrawerIcon size={28} color="black" />
+            </TouchableOpacity>
+          ),
+        })}
       >
         <Drawer.Screen
           name="barberHome"
@@ -92,24 +103,11 @@ export default function BarberLayout() {
 }
 
 function CustomDrawer(props) {
-  const router = useRouter();
   const bottom = useSafeAreaInsets();
   const [name, setName] = useState("");
+  const [profileImage, setProfileImage] = useState(null);
+  const [loading, setLoading] = useState(true);
   const mail = auth.currentUser.email;
-
-  const handleSignOut = async () => {
-    try {
-      await auth.signOut();
-      router.navigate("/");
-    } catch (error) {
-      console.log(error);
-      Alert.alert(
-        "Error",
-        "Ocurrió un error al cerrar sesión: ",
-        error.message,
-      );
-    }
-  };
 
   const handleGetNames = async () => {
     try {
@@ -128,6 +126,23 @@ function CustomDrawer(props) {
 
   useEffect(() => {
     handleGetNames();
+    //Función que obtiene la imagen de perfil del usuario
+    const fetchProfileImage = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const imageRef = ref(storage, `/profileImages/${user.uid}_profile.jpg`);
+        try {
+          const url = await getDownloadURL(imageRef);
+          setProfileImage(url);
+        } catch (error) {
+          console.log(
+            "No se ha podido obtener la imagen de perfil" + error.message,
+          );
+        }
+      }
+      setLoading(false);
+    };
+    fetchProfileImage();
   });
 
   return (
@@ -140,24 +155,30 @@ function CustomDrawer(props) {
         }}
       >
         <View className="pb-3">
-          <Image
-            source={NoPhoto}
-            style={{
-              width: "50%",
-              height: 100,
-            }}
-            resizeMode="contain"
-          />
-          <Text className="text-black font-bold pl-3 pb-1">
+          {!loading ? (
+            <Image
+              source={profileImage ? { uri: profileImage } : NoPhoto}
+              style={{
+                width: 150,
+                height: 150,
+                borderRadius: 40,
+                paddingBottom: 10,
+              }}
+              resizeMode="cover"
+            />
+          ) : (
+            <ActivityIndicator size="large" color="black" />
+          )}
+          <Text className="text-black font-bold pb-1 text-lg">
             {name || "AM Peluqueros"}
           </Text>
-          <Text className="text-black pl-3">{mail || "mail"}</Text>
+          <Text className="text-black pb-1 text-l">{mail || "mail"}</Text>
         </View>
         <DrawerItemList {...props} />
         <DrawerItem
           label={"Cerrar Sesión"}
           labelStyle={{ color: "black" }}
-          onPress={handleSignOut}
+          onPress={logoutUser}
           icon={({ size }) => <SignOutIcon size={size} color="black" />}
         />
       </DrawerContentScrollView>

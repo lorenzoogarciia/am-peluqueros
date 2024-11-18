@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import AddProduct from "../../components/peluqueros/Modals/AddProduct";
 import { collection, getDocs } from "firebase/firestore";
-import { firestore } from "../../firebase/config";
+import { firestore } from "../firebase/config";
 import BarberProduct from "../../components/peluqueros/BarberProduct";
 import { ReloadIcon } from "../../components/common/Icons";
 

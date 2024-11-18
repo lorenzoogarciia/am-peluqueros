@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
-import { firestore } from "../../firebase/config";
+import { firestore } from "../../app/firebase/config";
 import {
   collection,
   getDocs,
@@ -10,7 +10,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { useState, useEffect } from "react";
-import sendEmail from "../../config/mailjet";
+import sendEmail from "../../app/services/mailjet";
 import { CancelIcon, CheckIcon } from "../common/Icons";
 import ReservationProducts from "./Modals/ReservationProducts";
 
@@ -30,7 +30,7 @@ export default function Reservation({ item, fetchReservations }) {
       sendEmail(
         item.user,
         "Reserva confirmada",
-        `Su reserva para el día ${reservationDate} a las ${item.time} ha sido confirmada, deberá pagar un total de ${item.totalPrice}€. Muchas gracias por confiar en nosotros.`,
+        `Su reserva para el día ${reservationDate} a las ${item.time} ha sido confirmada. Muchas gracias por confiar en nosotros.`,
       );
       Alert.alert("Reserva confirmada con éxito");
       fetchReservations();

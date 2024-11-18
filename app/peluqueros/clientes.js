@@ -1,6 +1,6 @@
 import { FlatList, View, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { firestore } from "../../firebase/config";
+import { firestore } from "../firebase/config";
 import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import Client from "../../components/peluqueros/Client";
@@ -32,7 +32,7 @@ export default function Clientes() {
         flex: 1,
         paddingBottom: insets.bottom,
         paddingTop: 30,
-        padding: 6,
+        padding: 5,
         backgroundColor: "#white",
         alignItems: "center",
         justifyContent: "center",

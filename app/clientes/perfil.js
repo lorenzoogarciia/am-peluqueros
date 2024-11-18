@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import NoPhoto from "../../assets/usuario-nophoto.png";
 import { styled } from "nativewind";
 import ModalAddProfileImage from "../../components/common/modals/ModalAddProfileImage";
-import { storage, auth, firestore } from "../../firebase/config";
+import { storage, auth, firestore } from "../firebase/config";
 import { getDownloadURL, ref } from "firebase/storage";
 import { doc, getDoc, deleteDoc } from "firebase/firestore";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -119,28 +119,23 @@ export default function Perfil() {
             style={{
               width: "100%",
               height: "100%",
-              borderRadius: 75,
+              borderRadius: 40,
             }}
-            resizeMode="cover"
+            resizeMode="contain"
           />
         ) : (
           <ActivityIndicator size="large" color="black" />
         )}
       </StyledPressable>
-      <Text className="text-black font-bold text-xl p-1">
-        {name} {lastName}
+      <Text style={styles.profileTexts}>
+        Nombre: {name} {lastName}
       </Text>
-      <Text className="text-black font-bold text-xl p-1">Email: {mail}</Text>
-      <Text className="text-black font-bold text-xl p-1">
-        Teléfono: {phone}
-      </Text>
+      <Text style={styles.profileTexts}>Email: {mail}</Text>
+      <Text style={styles.profileTexts}>Teléfono: {phone}</Text>
       <ModalAddProfileImage
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
       />
-      <TouchableOpacity className="bg-white rounded-xl p-2 border-2 mt-2 mb-2">
-        <Text className="text-black font-bold text-lg">Citas</Text>
-      </TouchableOpacity>
       <TouchableOpacity
         onPress={() => setModalChangePasswordVisible(true)}
         className="bg-white rounded-xl p-2 border-2 mt-2 mb-2"
@@ -167,5 +162,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 8,
+  },
+  profileTexts: {
+    fontSize: 18,
+    fontWeight: "bold",
+    padding: 5,
   },
 });

@@ -8,7 +8,7 @@ import {
   Alert,
 } from "react-native";
 import { useState } from "react";
-import { auth } from "../../../firebase/config";
+import { auth } from "../../../app/firebase/config";
 import {
   EmailAuthProvider,
   reauthenticateWithCredential,

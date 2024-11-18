@@ -12,7 +12,7 @@ import { PhoneIcon } from "../../components/common/Icons";
 import { useCallback, useRef, useState } from "react";
 import { useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { firestore } from "../../firebase/config";
+import { firestore } from "../firebase/config";
 import ClientProduct from "../../components/clientes/ClientProduct";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ModalReserva from "../../components/clientes/ModalReserva";
@@ -126,7 +126,7 @@ export default function ClientHome() {
         flex: 1,
       }}
     >
-      <View className="flex-row p-4 items-center justify-center">
+      <View className="flex-row p-3 items-center justify-center">
         <TextInput
           style={{
             height: 50,
@@ -159,7 +159,9 @@ export default function ClientHome() {
         </TouchableOpacity>
       </View>
       {/* Lista de productos */}
-      <View className="p-3 flex-grow">
+      <View
+        style={{ paddingBottom: insets.bottom, paddingHorizontal: 10, flex: 1 }}
+      >
         <FlatList
           data={filteredProducts}
           keyExtractor={(item) => item.id}

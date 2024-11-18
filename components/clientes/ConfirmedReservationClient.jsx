@@ -2,20 +2,12 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "../../app/firebase/config";
-import ReservationProducts from "./Modals/ReservationProducts";
-import { TrashIcon } from "../common/Icons";
-export default function ConfirmedReservation({ item, onDelete }) {
+import ReservationProducts from "../peluqueros/Modals/ReservationProducts";
+export default function ConfirmedReservationClient({ item }) {
   const [userName, setUserName] = useState("");
   const [userLastname, setUserLastname] = useState("");
   const [reservationDate, setDate] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [isPast, setIsPast] = useState(false);
-
-  const handleDelete = () => {
-    if (onDelete) {
-      onDelete(item.id);
-    }
-  };
 
   useEffect(() => {
     //Función que obtiene el nombre del usuario
@@ -39,30 +31,13 @@ export default function ConfirmedReservation({ item, onDelete }) {
         console.error("Error al obtener el nombre del usuario:", error);
       }
     };
-    const checkIfPast = () => {
-      const now = new Date();
-      const reservationDate = item.date.toDate();
-      const [hours, minutes] = item.time.split(":").map(Number);
-      reservationDate.setHours(hours, minutes, 0, 0);
-      setIsPast(reservationDate < now);
-      setDate(reservationDate.toLocaleDateString());
-    };
     fetchUserName();
-    checkIfPast();
   }, [item]);
   return (
     <View style={styles.container}>
       <View className="flex-row">
         <Text style={styles.text}>{userName ? userName : item.user}</Text>
         <Text style={styles.text}>{userLastname ? userLastname : ""}</Text>
-        {isPast && (
-          <TouchableOpacity
-            onPress={handleDelete}
-            style={{ position: "absolute", right: 0, top: 0 }}
-          >
-            <TrashIcon size={24} color="red" />
-          </TouchableOpacity>
-        )}
       </View>
       <View>
         <Text style={styles.details}>Fecha: {reservationDate}</Text>

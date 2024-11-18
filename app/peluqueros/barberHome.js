@@ -2,7 +2,7 @@ import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { collection, getDocs, where, query } from "firebase/firestore";
-import { firestore } from "../../firebase/config";
+import { firestore } from "../firebase/config";
 import Reservation from "../../components/peluqueros/Reservation";
 import { ReloadIcon } from "../../components/common/Icons";
 export default function BarberHome() {

@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 import NoPhoto from "../../assets/usuario-nophoto.png";
 import { styled } from "nativewind";
 import ModalAddProfileImage from "../../components/common/modals/ModalAddProfileImage";
-import { storage, auth, firestore } from "../../firebase/config";
+import { storage, auth, firestore } from "../firebase/config";
 import { getDownloadURL, ref } from "firebase/storage";
 import { doc, getDoc } from "firebase/firestore";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -71,7 +71,7 @@ export default function Perfil() {
             style={{
               width: "100%",
               height: "100%",
-              borderRadius: 75,
+              borderRadius: 40,
             }}
             resizeMode="cover"
           />

@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { styled } from "nativewind";
 import { useState } from "react";
-import { auth } from "../../firebase/config";
+import { auth } from "../firebase/config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 

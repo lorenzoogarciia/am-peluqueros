@@ -8,7 +8,7 @@ import {
   Alert,
 } from "react-native";
 import { useState } from "react";
-import { firestore } from "../../../firebase/config";
+import { firestore } from "../../../app/firebase/config";
 import { doc, setDoc } from "firebase/firestore";
 
 export default function AddProduct({

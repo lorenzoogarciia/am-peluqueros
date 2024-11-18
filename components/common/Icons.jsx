@@ -59,3 +59,7 @@ export const CheckIcon = (props) => (
 export const CancelIcon = (props) => (
   <Entypo name="cross" size={24} color="black" {...props} />
 );
+
+export const DrawerIcon = (props) => (
+  <Entypo name="menu" size={24} color="black" {...props} />
+);

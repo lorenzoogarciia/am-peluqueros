@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Alert } from "react-native";
 import { TrashIcon } from "../common/Icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { firestore } from "../../firebase/config";
+import { firestore } from "../../app/firebase/config";
 import { doc, deleteDoc } from "firebase/firestore";
 
 export default function BarberProduct({ item, fetchProductos }) {

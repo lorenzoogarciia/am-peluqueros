@@ -37,3 +37,5 @@ yarn-error.*
 # firebase config
 config/mailjet.js
 firebase/config.js
+app/services/authService.js
+app/services/mailjet.js
