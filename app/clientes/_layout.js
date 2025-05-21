@@ -133,7 +133,7 @@ function CustomDrawer(props) {
           backgroundColor: "white",
         }}
       >
-        <View className="pb-3">
+        <View className="pb-1 border-b-2">
           {!loading ? (
             <Image
               source={profileImage ? { uri: profileImage } : NoPhoto}

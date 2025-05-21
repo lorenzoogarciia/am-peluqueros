@@ -53,7 +53,9 @@ export default function ConfirmedReservation({ item, onDelete }) {
   return (
     <View style={styles.container}>
       <View className="flex-row">
-        <Text style={styles.text}>{userName ? userName : item.user}</Text>
+        <Text style={styles.text} numberOfLines={1} ellipsizeMode="tail">
+          {userName ? userName : item.user}
+        </Text>
         <Text style={styles.text}>{userLastname ? userLastname : ""}</Text>
         {isPast && (
           <TouchableOpacity
@@ -68,7 +70,7 @@ export default function ConfirmedReservation({ item, onDelete }) {
         <Text style={styles.details}>Fecha: {reservationDate}</Text>
         <Text style={styles.details}>Hora: {item.time}</Text>
         <Text style={styles.details}>Estado: {item.status}</Text>
-        <Text style={styles.details}>Precio: {item.totalPrice}€</Text>
+        <Text style={styles.details}>Importe: {item.totalPrice}€</Text>
         <TouchableOpacity
           style={styles.productos}
           onPress={() => setModalVisible(true)}

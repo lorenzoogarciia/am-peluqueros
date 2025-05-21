@@ -29,10 +29,8 @@ export default function Clientes() {
   return (
     <View
       style={{
-        flex: 1,
         paddingBottom: insets.bottom,
-        paddingTop: 30,
-        padding: 5,
+        paddingTop: 15,
         backgroundColor: "#white",
         alignItems: "center",
         justifyContent: "center",

@@ -190,9 +190,9 @@ export default function ClientHome() {
               setModalVisible(true);
               console.log(selectedProducts);
             }}
-            className="bg-black rounded-3xl p-3"
+            className="bg-black rounded-3xl p-4"
           >
-            <Text className="text-white font-bold text-2xl">Reservar</Text>
+            <Text className="text-white font-bold text-xl">Reservar</Text>
           </TouchableOpacity>
         </Animated.View>
       )}

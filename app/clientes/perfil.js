@@ -117,21 +117,22 @@ export default function Perfil() {
           <Image
             source={profileImage ? { uri: profileImage } : NoPhoto}
             style={{
-              width: "100%",
-              height: "100%",
+              width: "90%",
+              height: "90%",
               borderRadius: 40,
+              borderWidth: 2,
             }}
-            resizeMode="contain"
+            resizeMode="cover"
           />
         ) : (
           <ActivityIndicator size="large" color="black" />
         )}
       </StyledPressable>
       <Text style={styles.profileTexts}>
-        Nombre: {name} {lastName}
+        {name} {lastName}
       </Text>
-      <Text style={styles.profileTexts}>Email: {mail}</Text>
-      <Text style={styles.profileTexts}>Teléfono: {phone}</Text>
+      <Text style={styles.profileTexts}>{mail}</Text>
+      <Text style={styles.profileTexts}>{phone}</Text>
       <ModalAddProfileImage
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
@@ -140,13 +141,17 @@ export default function Perfil() {
         onPress={() => setModalChangePasswordVisible(true)}
         className="bg-white rounded-xl p-2 border-2 mt-2 mb-2"
       >
-        <Text className="text-black font-bold text-lg">Cambiar Contraseña</Text>
+        <Text className="text-black font-bold text-lg text-center">
+          Cambiar Contraseña
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={showDeleteConfirmation}
-        className="bg-white rounded-xl p-2 border-2 mt-2 mb-2"
+        className="bg-white rounded-xl p-2 border-2 border-red-500 mt-2 mb-2"
       >
-        <Text className="text-black font-bold text-lg">Eliminar Cuenta</Text>
+        <Text className="text-red-500 font-bold text-lg text-center">
+          Eliminar Cuenta
+        </Text>
       </TouchableOpacity>
       <ModalChangePassword
         modalVisible={modalChangePasswordVisible}
@@ -159,13 +164,13 @@ export default function Perfil() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 8,
+    justifyContent: "top",
+    alignItems: "start",
+    padding: 32,
   },
   profileTexts: {
     fontSize: 18,
     fontWeight: "bold",
-    padding: 5,
+    padding: 3,
   },
 });

@@ -2,6 +2,7 @@ import Logo from "../../components/common/Logo";
 import { BackIcon } from "../../components/common/Icons";
 import { Screen } from "../../components/common/Screen";
 import { Stack, Link, router } from "expo-router";
+import { StyleSheet } from "react-native";
 import {
   ScrollView,
   TouchableOpacity,
@@ -62,6 +63,7 @@ export default function Registro() {
       <Stack.Screen
         options={{
           headerStyle: { backgroundColor: "white" },
+          headerTitleStyle: { color: "black" },
           headerTintColor: "#black",
           headerTitle: "Registro",
           headerLeft: () => {
@@ -83,19 +85,7 @@ export default function Registro() {
       <ScrollView>
         <View style={{ width }} className="items-center justify-center p-5">
           <TextInput
-            style={{
-              height: 60,
-              borderColor: "black",
-              borderWidth: 1,
-              width: "95%",
-              margin: 10,
-              color: "black",
-              backgroundColor: "white",
-              borderRadius: 8,
-              alignSelf: "center",
-              padding: 2,
-              fontSize: 16,
-            }}
+            style={styles.inputs}
             placeholder="Correo electrónico"
             placeholderTextColor={"black"}
             value={email}
@@ -103,19 +93,7 @@ export default function Registro() {
             autoCapitalize="none"
           />
           <TextInput
-            style={{
-              height: 60,
-              borderColor: "black",
-              borderWidth: 1,
-              width: "95%",
-              margin: 10,
-              color: "black",
-              backgroundColor: "white",
-              borderRadius: 8,
-              alignSelf: "center",
-              padding: 2,
-              fontSize: 16,
-            }}
+            style={styles.inputs}
             placeholder="Contraseña"
             placeholderTextColor={"black"}
             secureTextEntry={true}
@@ -123,57 +101,21 @@ export default function Registro() {
             onChangeText={setPassword}
           />
           <TextInput
-            style={{
-              height: 60,
-              borderColor: "black",
-              borderWidth: 1,
-              width: "95%",
-              margin: 10,
-              color: "black",
-              backgroundColor: "white",
-              borderRadius: 8,
-              alignSelf: "center",
-              padding: 2,
-              fontSize: 16,
-            }}
+            style={styles.inputs}
             placeholder="Nombre"
             placeholderTextColor={"black"}
             value={name}
             onChangeText={setName}
           />
           <TextInput
-            style={{
-              height: 60,
-              borderColor: "black",
-              borderWidth: 1,
-              width: "95%",
-              margin: 10,
-              color: "black",
-              backgroundColor: "white",
-              borderRadius: 8,
-              alignSelf: "center",
-              padding: 2,
-              fontSize: 16,
-            }}
+            style={styles.inputs}
             placeholder="Apellidos"
             placeholderTextColor={"black"}
             value={lastName}
             onChangeText={setLastName}
           />
           <TextInput
-            style={{
-              height: 60,
-              borderColor: "black",
-              borderWidth: 1,
-              width: "95%",
-              margin: 10,
-              color: "black",
-              backgroundColor: "white",
-              borderRadius: 8,
-              alignSelf: "center",
-              padding: 2,
-              fontSize: 16,
-            }}
+            style={styles.inputs}
             placeholder="Teléfono"
             placeholderTextColor={"black"}
             keyboardType="phone-pad"
@@ -181,11 +123,10 @@ export default function Registro() {
             onChangeText={setPhone}
           />
           <StyledPressable
-            style={{ backgroundColor: "black", width: "60%" }}
-            className="rounded-2xl active:opacity-80 p-2 items-center mt-2"
+            className="rounded-2xl active:opacity-80 p-2 items-center mt-2 bg-white border-2 border-black min-w-[75%]"
             onPress={handleRegister}
           >
-            <Text className="text-white text-lg">Registrarse</Text>
+            <Text className="text-black text-lg font-bold">Registrarse</Text>
           </StyledPressable>
         </View>
         <View className="items-center">
@@ -195,3 +136,19 @@ export default function Registro() {
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  inputs: {
+    height: 60,
+    borderColor: "black",
+    borderWidth: 1,
+    width: "95%",
+    margin: 10,
+    color: "black",
+    backgroundColor: "white",
+    borderRadius: 8,
+    alignSelf: "center",
+    padding: 4,
+    fontSize: 16,
+  },
+});

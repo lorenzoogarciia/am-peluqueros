@@ -89,7 +89,9 @@ export default function Perfil() {
         onPress={() => setModalChangePasswordVisible(true)}
         className="bg-white rounded-xl p-2 border-2 mt-2 mb-2"
       >
-        <Text className="text-black font-bold text-lg">Cambiar Contraseña</Text>
+        <Text className="text-black font-bold text-lg text-center">
+          Cambiar Contraseña
+        </Text>
       </TouchableOpacity>
       <ModalChangePassword
         modalVisible={modalChangePasswordVisible}
@@ -102,8 +104,8 @@ export default function Perfil() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 8,
+    justifyContent: "top",
+    alignItems: "start",
+    padding: 32,
   },
 });

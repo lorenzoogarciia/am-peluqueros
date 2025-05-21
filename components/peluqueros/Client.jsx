@@ -19,15 +19,28 @@ export default function Client({ item }) {
   };
   return (
     <View style={styles.productContainer}>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Text style={styles.clientName}>{item.name}</Text>
-        <Text style={styles.clientName}>{item.lastName}</Text>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 3,
+          width: "100%",
+        }}
+      >
+        <Text style={styles.clientName} numberOfLines={1} ellipsizeMode="tail">
+          {item.name}
+        </Text>
+        <Text style={styles.clientName} numberOfLines={1} ellipsizeMode="tail">
+          {item.lastName}
+        </Text>
       </View>
       <TouchableOpacity onPress={sendEmail}>
-        <Text style={styles.clientText}>Email: {item.email}</Text>
+        <Text style={styles.clientText} numberOfLines={1} ellipsizeMode="tail">
+          {item.email}
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={phoneCall}>
-        <Text style={styles.clientText}>Teléfono: {item.phone}</Text>
+        <Text style={styles.clientText}>{item.phone}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -35,19 +48,21 @@ export default function Client({ item }) {
 
 const styles = StyleSheet.create({
   productContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "start",
+    justifyContent: "start",
     backgroundColor: "white",
+    width: "95%",
+    alignSelf: "center",
     padding: 20,
     borderRadius: 20,
+    borderWidth: 2,
     marginVertical: 5,
   },
 
   clientName: {
-    fontSize: 26,
+    fontSize: 20,
     fontWeight: "bold",
-    marginRight: 10,
+    flexShrink: 1,
   },
 
   clientText: {

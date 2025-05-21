@@ -1,4 +1,4 @@
-import { FlatList, Text, View } from "react-native";
+import { FlatList, Text, View, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -51,17 +51,12 @@ export default function Productos() {
           <BarberProduct item={item} fetchProductos={fetchProducts} />
         )}
       />
-      <View className="items-center justify-center mt-2 flex-row">
+      <View className="items-center justify-center p-2 flex-row">
         <TouchableOpacity
-          style={{
-            backgroundColor: "black",
-            padding: 12,
-            borderRadius: 28,
-            marginLeft: 2,
-          }}
+          style={styles.addBtn}
           onPress={() => setModalVisible(true)}
         >
-          <Text className="text-white font-bold">Crear Producto</Text>
+          <Text className="text-white font-bold text-md">Añadir Producto</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={fetchProducts}>
           <ReloadIcon size={40} />
@@ -77,3 +72,12 @@ export default function Productos() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  addBtn: {
+    backgroundColor: "black",
+    padding: 10,
+    borderRadius: 20,
+    borderWidth: 2,
+  },
+});

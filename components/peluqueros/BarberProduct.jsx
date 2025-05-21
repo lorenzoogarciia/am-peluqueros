@@ -36,7 +36,7 @@ export default function BarberProduct({ item, fetchProductos }) {
   };
   return (
     <View style={styles.productContainer}>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
         <Text style={styles.productName}>{item.name}</Text>
         <TouchableOpacity onPress={showDeleteConfirmation}>
           <TrashIcon color="red" />
@@ -50,10 +50,12 @@ export default function BarberProduct({ item, fetchProductos }) {
 
 const styles = StyleSheet.create({
   productContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "start",
+    justifyContent: "start",
     backgroundColor: "white",
+    width: "95%",
+    alignSelf: "center",
+    borderWidth: 2,
     padding: 20,
     borderRadius: 20,
     margin: 5,
@@ -62,7 +64,6 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 26,
     fontWeight: "bold",
-    marginRight: 10,
   },
 
   productText: {

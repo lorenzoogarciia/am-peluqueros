@@ -119,7 +119,7 @@ export default function ModalReserva({
       setAvailableTimes([...filteredTimeSlots]);
       console.log("Horas filtradas: ", availableTimes); // Actualiza el estado con las horas disponibles
     } catch (error) {
-      console.error("Error updating time slots:", error);
+      console.error("Error actualizando time slots:", error);
     }
   };
 
@@ -197,7 +197,8 @@ export default function ModalReserva({
               <DateTimePicker
                 value={date}
                 mode="date"
-                display={"spinner"}
+                display={"inline"}
+                locale="es-ES"
                 onChange={onChange}
                 minimumDate={new Date()}
                 textColor="black"
@@ -359,7 +360,7 @@ const styles = StyleSheet.create({
     margin: 5,
     padding: 5,
     borderColor: "#ccc",
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
@@ -374,6 +375,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 10,
     borderRadius: 15,
+    borderColor: "#ccc",
     borderWidth: 2,
   },
 });

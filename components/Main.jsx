@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { StyleSheet } from "react-native";
 import { Screen } from "./common/Screen";
 import Logo from "./common/Logo";
 import { TextInput, Pressable, View, Text, Alert } from "react-native";
@@ -39,19 +40,7 @@ export default function Main() {
       <View style={{ width: "100%" }} className="items-center justify-center">
         <Logo width={"70%"} height={"40%"} />
         <TextInput
-          style={{
-            height: 50,
-            borderColor: "black",
-            borderWidth: 1,
-            width: "75%",
-            margin: 10,
-            color: "black",
-            backgroundColor: "white",
-            borderRadius: 8,
-            alignSelf: "center",
-            padding: 2,
-            fontSize: 16,
-          }}
+          style={styles.inputs}
           placeholder="Correo electrónico"
           placeholderTextColor={"black"}
           autoCapitalize="none"
@@ -59,19 +48,7 @@ export default function Main() {
           onChangeText={setEmail}
         />
         <TextInput
-          style={{
-            height: 50,
-            borderColor: "black",
-            borderWidth: 1,
-            width: "75%",
-            margin: 10,
-            color: "black",
-            backgroundColor: "white",
-            borderRadius: 8,
-            alignSelf: "center",
-            padding: 2,
-            fontSize: 16,
-          }}
+          style={styles.inputs}
           placeholder="Contraseña"
           placeholderTextColor={"black"}
           secureTextEntry={true}
@@ -79,22 +56,18 @@ export default function Main() {
           onChangeText={setPassword}
         />
         <View
-          className="flex-row justify-center items-center p-2 mt-1"
+          className="flex-col justify-center items-center p-2 gap-2 mt-1"
           style={{ width: "75%" }}
         >
           <StyledPressable
-            className="rounded-3xl active:opacity-80 mr-2 p-3 items-center"
-            style={{ backgroundColor: "black" }}
+            className="rounded-2xl active:opacity-60 p-3 items-center bg-white border-2 border-black min-w-[75%]"
             onPress={handleSignIn}
           >
-            <Text className="text-white text-xl font-bold">Iniciar sesión</Text>
+            <Text className="text-black text-xl font-bold">Iniciar sesión</Text>
           </StyledPressable>
           <Link asChild href={"../common/registro"}>
-            <StyledPressable
-              className="rounded-3xl active:opacity-80 ml-2 items-center p-3"
-              style={{ backgroundColor: "black" }}
-            >
-              <Text className="text-white text-xl font-bold">Registro</Text>
+            <StyledPressable className="rounded-2xl active:opacity-60 items-center p-3 bg-white border-2 border-black min-w-[75%]">
+              <Text className="text-black text-xl font-bold">Registro</Text>
             </StyledPressable>
           </Link>
         </View>
@@ -102,3 +75,19 @@ export default function Main() {
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  inputs: {
+    height: "9%",
+    borderColor: "black",
+    borderWidth: 2,
+    width: "75%",
+    margin: 10,
+    color: "black",
+    backgroundColor: "white",
+    borderRadius: 8,
+    alignSelf: "center",
+    padding: 4,
+    fontSize: 16,
+  },
+});
