@@ -24,7 +24,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { View, Text, Image, ActivityIndicator } from "react-native";
 import NoPhoto from "../../assets/usuario-nophoto.png";
 import { useEffect, useState } from "react";
-import { logoutUser } from "../services/authService";
+import { logoutUser } from "../../services/authService";
 
 export default function BarberLayout() {
   return (

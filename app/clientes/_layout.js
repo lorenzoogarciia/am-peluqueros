@@ -20,7 +20,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import NoPhoto from "../../assets/usuario-nophoto.png";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
-import { logoutUser } from "../services/authService";
+import { logoutUser } from "../../services/authService";
 import { TouchableOpacity } from "react-native";
 
 export default function ClientLayout() {

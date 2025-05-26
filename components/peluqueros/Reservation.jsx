@@ -10,7 +10,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { useState, useEffect } from "react";
-import sendEmail from "../../app/services/mailjet";
+import sendEmail from "../../services/mailjet";
 import { CancelIcon, CheckIcon } from "../common/Icons";
 import ReservationProducts from "./Modals/ReservationProducts";
 

@@ -19,7 +19,7 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
-import sendEmail from "../../app/services/mailjet";
+import sendEmail from "../../services/mailjet";
 export default function ModalReserva({
   modalVisible,
   setModalVisible,

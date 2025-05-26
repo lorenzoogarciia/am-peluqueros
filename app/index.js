@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
-import { checkSession } from "./services/authService";
+import { checkSession } from "../services/authService";
 import { View, ActivityIndicator } from "react-native";
 
 const Index = () => {

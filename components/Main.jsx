@@ -6,7 +6,7 @@ import { TextInput, Pressable, View, Text, Alert } from "react-native";
 import { styled } from "nativewind";
 import { Link } from "expo-router";
 import { useRouter } from "expo-router";
-import { loginUser } from "../app/services/authService";
+import { loginUser } from "../services/authService";
 
 export default function Main() {
   const StyledPressable = styled(Pressable);
