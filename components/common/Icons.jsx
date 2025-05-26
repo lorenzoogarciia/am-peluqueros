@@ -63,3 +63,7 @@ export const CancelIcon = (props) => (
 export const DrawerIcon = (props) => (
   <Entypo name="menu" size={24} color="black" {...props} />
 );
+
+export const FilterIcon = (props) => (
+  <Ionicons name="filter-sharp" size={24} color="black" {...props} />
+);

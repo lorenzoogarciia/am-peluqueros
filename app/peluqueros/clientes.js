@@ -42,6 +42,7 @@ export default function Clientes() {
         renderItem={({ item }) => (
           <Client item={item} fetchClients={fetchClient} />
         )}
+        showsVerticalScrollIndicator={false}
       />
       <TouchableOpacity onPress={fetchClient}>
         <ReloadIcon size={50} />

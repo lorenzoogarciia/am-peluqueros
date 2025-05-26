@@ -50,6 +50,7 @@ export default function Productos() {
         renderItem={({ item }) => (
           <BarberProduct item={item} fetchProductos={fetchProducts} />
         )}
+        showsVerticalScrollIndicator={false}
       />
       <View className="items-center justify-center p-2 flex-row">
         <TouchableOpacity

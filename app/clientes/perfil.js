@@ -117,8 +117,8 @@ export default function Perfil() {
           <Image
             source={profileImage ? { uri: profileImage } : NoPhoto}
             style={{
-              width: "90%",
-              height: "90%",
+              width: "100%",
+              height: "100%",
               borderRadius: 40,
               borderWidth: 2,
             }}

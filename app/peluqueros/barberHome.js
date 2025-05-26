@@ -31,7 +31,6 @@ export default function BarberHome() {
   }, []);
   return (
     <View
-      className="flex-1"
       style={{
         margin: 5,
         paddingTop: insets.top - 40,

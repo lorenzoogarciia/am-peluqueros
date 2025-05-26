@@ -15,12 +15,14 @@ import { getDownloadURL, ref } from "firebase/storage";
 import { doc, getDoc } from "firebase/firestore";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import ModalChangePassword from "../../components/common/modals/ModalChangePassword";
+import ScheduleModal from "../../components/peluqueros/Modals/ScheduleModal";
 
 export default function Perfil() {
   const StyledPressable = styled(Pressable);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalChangePasswordVisible, setModalChangePasswordVisible] =
     useState(false);
+  const [scheduleModalVisible, setScheduleModalVisible] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState("");
@@ -72,6 +74,7 @@ export default function Perfil() {
               width: "100%",
               height: "100%",
               borderRadius: 40,
+              borderWidth: 2,
             }}
             resizeMode="cover"
           />
@@ -93,9 +96,21 @@ export default function Perfil() {
           Cambiar Contraseña
         </Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => setScheduleModalVisible(true)}
+        className="bg-white rounded-xl p-2 border-2 mt-2 mb-2"
+      >
+        <Text className="text-black font-bold text-lg text-center">
+          Modificar Horario
+        </Text>
+      </TouchableOpacity>
       <ModalChangePassword
         modalVisible={modalChangePasswordVisible}
         setModalVisible={setModalChangePasswordVisible}
+      />
+      <ScheduleModal
+        scheduleModalVisible={scheduleModalVisible}
+        setScheduleModalVisible={setScheduleModalVisible}
       />
     </View>
   );

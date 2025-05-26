@@ -8,7 +8,7 @@ import {
   Platform,
   Alert,
 } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { firestore, auth } from "../../app/firebase/config";
 import {
@@ -43,7 +43,7 @@ export default function ModalReserva({
     return timeSlots;
   };
   const [availableTimes, setAvailableTimes] = useState(generateTimeSlots());
-  const [selectedTime, setSelectedTime] = useState("09:00");
+  const [selectedTime, setSelectedTime] = useState("N/S");
   const [showTimePicker, setShowTimePicker] = useState(false);
   //Función que calcula el precio total de los productos
   const totalPrice = selectedProducts.reduce(
@@ -54,7 +54,7 @@ export default function ModalReserva({
   //Función que resetea el modal al cerrarlo
   const resetModal = () => {
     setDate(new Date());
-    setSelectedTime("09:00");
+    setSelectedTime("N/S");
     setShowDatePicker(false);
     setShowTimePicker(false);
     setModalVisible(false);
@@ -112,23 +112,46 @@ export default function ModalReserva({
 
   const updateAvailableTimeSlots = async (date) => {
     try {
-      const reservedTimes = await fetchReservedSlots(date); // Obtén las horas reservadas confirmadas
-      const filteredTimeSlots = generateTimeSlots().filter(
-        (time) => !reservedTimes.includes(time), // Excluye las horas reservadas
-      );
-      setAvailableTimes([...filteredTimeSlots]);
-      console.log("Horas filtradas: ", availableTimes); // Actualiza el estado con las horas disponibles
+      const reservedTimes = await fetchReservedSlots(date);
+      const allSlots = generateTimeSlots();
+      let availableSlots = allSlots.filter(
+        (time) => !reservedTimes.includes(time),
+      ); // Filtra las horas reservadas
+      if (new Date().toDateString() === date.toDateString()) {
+        const now = new Date();
+        const currentHour = now.getHours();
+        const currentMinute = now.getMinutes();
+        availableSlots = availableSlots.filter((time) => {
+          const [hour, minute] = time.split(":").map(Number);
+          return (
+            hour > currentHour ||
+            (hour === currentHour && minute > currentMinute)
+          );
+        });
+      }
+      setAvailableTimes(availableSlots);
+      console.log("Horas disponibles: ", availableTimes); // Actualiza el estado con las horas disponibles
     } catch (error) {
       console.error("Error actualizando time slots:", error);
     }
   };
 
+  useEffect(() => {
+    if (modalVisible) {
+      updateAvailableTimeSlots(date);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalVisible, date]);
   const selectTime = (time) => {
     setSelectedTime(time);
     setShowTimePicker(false);
   };
 
   const createReservation = async () => {
+    if (selectedTime === "N/S") {
+      Alert.alert("Por favor, seleccione una hora");
+      return;
+    }
     const email = auth.currentUser.email;
     const reservationId = `${email}-${date.toISOString().split("T")[0]}-${selectedTime}`;
     const reservation = {
@@ -197,7 +220,7 @@ export default function ModalReserva({
               <DateTimePicker
                 value={date}
                 mode="date"
-                display={"inline"}
+                display={"spinner"}
                 locale="es-ES"
                 onChange={onChange}
                 minimumDate={new Date()}

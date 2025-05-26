@@ -44,6 +44,11 @@ export default function Main() {
           placeholder="Correo electrónico"
           placeholderTextColor={"black"}
           autoCapitalize="none"
+          keyboardType="email-address"
+          autoComplete="email"
+          autoCorrect={false}
+          textContentType="emailAddress"
+          textInputMode="email"
           value={email}
           onChangeText={setEmail}
         />
@@ -52,6 +57,10 @@ export default function Main() {
           placeholder="Contraseña"
           placeholderTextColor={"black"}
           secureTextEntry={true}
+          textContentType="password"
+          autoCapitalize="none"
+          autoComplete="password"
+          autoCorrect={false}
           value={password}
           onChangeText={setPassword}
         />

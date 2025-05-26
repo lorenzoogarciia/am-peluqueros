@@ -1,6 +1,6 @@
 {
   "name": "am-peluqueros",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/datetimepicker": "^8.1.1",
+    "@react-native-picker/picker": "^2.11.0",
     "@react-navigation/drawer": "^7.0.4",
     "@react-navigation/native": "^7.0.3",
     "axios": "^1.7.7",
@@ -29,6 +30,7 @@
     "node-fetch": "^2.7.0",
     "react": "^18.3.1",
     "react-native": "^0.76.2",
+    "react-native-dropdown-picker": "^5.4.6",
     "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-reanimated": "~3.16.1",

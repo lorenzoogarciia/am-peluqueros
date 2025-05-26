@@ -1,4 +1,4 @@
-import { View, Text, Alert } from "react-native";
+import { View, Alert, TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
 import {
   collection,
@@ -12,9 +12,11 @@ import { firestore } from "../firebase/config";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { FlatList } from "react-native-gesture-handler";
 import ConfirmedReservation from "../../components/peluqueros/ConfirmedReservation";
+import { FilterIcon } from "../../components/common/Icons";
 export default function Citas() {
   const insets = useSafeAreaInsets();
   const [reservations, setReservations] = useState([]);
+  const [filterModalVisible, setFilterModalVisible] = useState(false);
 
   const fetchReservations = async () => {
     try {
@@ -65,12 +67,14 @@ export default function Citas() {
     >
       <View
         style={{
-          alignItems: "center",
+          alignItems: "flex-end",
           justifyContent: "center",
-          borderBottomWidth: 2,
+          paddingHorizontal: 10,
         }}
       >
-        <Text className="font-bold text-2xl">Citas Agendadas</Text>
+        <TouchableOpacity onPress={() => setFilterModalVisible(true)}>
+          <FilterIcon size={28} />
+        </TouchableOpacity>
       </View>
       <FlatList
         data={reservations}
@@ -83,6 +87,7 @@ export default function Citas() {
             />
           );
         }}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
